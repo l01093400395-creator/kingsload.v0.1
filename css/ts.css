@@ -1,0 +1,50 @@
+/* ===== Tiny Swords UI ===== */
+:root{--ink:#fbf3e2;--sub:#d9c9a6;--gold:#ffd36b;--paper:#efe3c0;--inkd:#3a2a1a}
+.panel{background:#3b3127;border:22px solid transparent;border-image:url(../assets/ts/UI/Banners/Carved_9Slides.png) 64 / 22px round;
+  background-clip:padding-box;border-radius:0;image-rendering:auto;box-shadow:0 10px 26px rgba(0,0,0,.5)}
+.panel h1,.panel h2,.panel h3{color:var(--gold);text-shadow:0 2px 0 #1b140e}
+.sub{color:var(--sub)}
+button{color:#14313f;font-weight:900;background:transparent;border:14px solid transparent;
+  border-image:url(../assets/ts/UI/Buttons/Button_Blue_9Slides.png) 64 fill / 14px stretch;padding:2px 6px;
+  text-shadow:0 1px 0 rgba(255,255,255,.55);image-rendering:auto;border-radius:0;box-shadow:none}
+button:hover:not(:disabled){border-image-source:url(../assets/ts/UI/Buttons/Button_Hover_9Slides.png);background:transparent}
+button:active:not(:disabled){border-image-source:url(../assets/ts/UI/Buttons/Button_Blue_9Slides_Pressed.png);transform:translateY(1px)}
+button:disabled{border-image-source:url(../assets/ts/UI/Buttons/Button_Disable_9Slides.png);color:#5a4632;text-shadow:none;background:transparent}
+.big{color:#3a0e0a;border:14px solid transparent;border-image:url(../assets/ts/UI/Buttons/Button_Red_9Slides.png) 64 fill / 14px stretch;background:transparent;text-shadow:0 1px 0 rgba(255,220,200,.6)}
+.big:hover:not(:disabled){border-image-source:url(../assets/ts/UI/Buttons/Button_Hover_9Slides.png)}
+.big:active:not(:disabled){border-image-source:url(../assets/ts/UI/Buttons/Button_Red_9Slides_Pressed.png)}
+.ghost{color:var(--inkd);border:14px solid transparent;border-image:url(../assets/ts/UI/Banners/Carved_9Slides.png) 64 fill / 14px stretch;background:transparent;text-shadow:0 1px 0 rgba(255,240,210,.6)}
+.ghost:hover:not(:disabled){border-image-source:url(../assets/ts/UI/Buttons/Button_Hover_9Slides.png)}
+.tabs button{border:14px solid transparent;border-image:url(../assets/ts/UI/Buttons/Button_Disable_9Slides.png) 64 fill / 14px stretch;color:#3a2a1a;background:transparent;padding:2px 8px}
+.tabs button.on,.tabs button.active,.tabs button[aria-selected=true]{border-image:url(../assets/ts/UI/Buttons/Button_Blue_9Slides.png) 64 fill / 14px stretch;color:#14313f;background:transparent}
+.rg,.act,.slot,.nc,.qrow{background:rgba(20,14,8,.35);border:2px solid #1b140e;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(255,220,170,.12)}
+.slot.cur{border-color:var(--gold)}
+#toast{background:var(--paper);color:var(--inkd);border:20px solid transparent;border-image:url(../assets/ts/UI/Banners/Carved_9Slides.png) 64 / 20px round;background-clip:padding-box;font-weight:800}
+.cell{background:#c9b48a;border:8px solid transparent;border-image:url(../assets/ts/UI/Banners/Carved_9Slides.png) 64 / 8px stretch;background-clip:padding-box}
+#npcdlg .nface{background:#2b2219;border:12px solid transparent;border-image:url(../assets/ts/UI/Banners/Carved_9Slides.png) 64 / 12px stretch}
+#npcdlg .nline{background:var(--paper);color:var(--inkd);border:3px solid #6a5232;border-radius:8px}
+#zoom button{width:46px;height:46px;padding:0;font-size:0;border-width:10px}
+#zoom button.wide{width:auto;font-size:12px;padding:0 4px}
+#zoom button::before{content:'';display:block;width:26px;height:26px;margin:auto;background-size:contain;background-repeat:no-repeat;background-position:center}
+#zin::before{background-image:url(../assets/ts/UI/Icons/Regular_08.png)}
+#zout::before{background-image:url(../assets/ts/UI/Icons/Regular_09.png)}
+#sndbtn::before{background-image:url(../assets/ts/UI/Icons/Regular_03.png)}
+#sndbtn.off::before{background-image:url(../assets/ts/UI/Icons/Disable_03.png)}
+#zfit::before{display:none}
+.ribbon{display:inline-block;padding:4px 34px 10px;border:0 solid transparent;border-width:0 30px;border-image:url(../assets/ts/UI/Ribbons/Ribbon_Yellow_3Slides.png) 0 64 fill / 0 30px stretch;color:#3a2a0a;font-weight:900;text-shadow:0 1px 0 rgba(255,255,220,.6)}
+.bhead h3,#equip h3,#npcdlg .nname{display:inline-block}
+.logo{color:#fff3c8;text-shadow:0 3px 0 #2a4a5a,0 0 18px rgba(120,200,255,.35)}
+#bpanel canvas.room{border:10px solid transparent;border-image:url(../assets/ts/UI/Banners/Carved_9Slides.png) 64 / 10px stretch;border-radius:0}
+
+button,.big,.ghost,.tabs button{border-radius:0!important}
+.big:hover:not(:disabled),.ghost:hover:not(:disabled),button:hover:not(:disabled){background:transparent}
+#hubfoot button{padding:2px 8px}
+
+#kthud button{border-width:10px;padding:0 6px;font-size:12px;min-height:0}
+#kthud button{white-space:nowrap}
+/* 정보창 접기 */
+#thud .fold{position:absolute;right:4px;top:4px;padding:0 6px!important;min-width:26px;font-size:12px!important;line-height:18px;border-width:6px!important;z-index:2}
+#thud>.hr:first-of-type{padding-right:34px}
+#thud.folded .hr.x{display:none!important}
+#kthud .fold{padding:0 6px;font-size:12px}
+#kthud.folded .x{display:none!important}

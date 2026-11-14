@@ -1,0 +1,77 @@
+/* ===== 나무 테마 UI (Ninja Adventure · Theme Wood) ===== */
+:root{--ink:#f6ecd8;--sub:#c9b89a;--gold:#ffc46b;--org:#f06733;--dark:#131b1b;--wood:#2c2420;--wood2:#3a3029;--wood3:#4a3d33}
+body{color:var(--ink)}
+img,.pix{image-rendering:pixelated}
+.panel{background:var(--wood);border:12px solid transparent;border-image:url(../assets/ui/nine_path_panel.png) 6 / 12px stretch;
+  border-radius:0;box-shadow:0 8px 24px rgba(0,0,0,.55);background-clip:padding-box;image-rendering:pixelated}
+.panel h1,.panel h2,.panel h3{color:var(--gold);text-shadow:0 2px 0 #131b1b}
+.sub{color:var(--sub)}
+button{color:#2a1306;font-weight:800;background:#f06733;border:6px solid transparent;border-image:url(../assets/ui/button_normal.png) 3 / 6px stretch;
+  border-radius:0;background-clip:padding-box;text-shadow:0 1px 0 rgba(255,220,170,.5);image-rendering:pixelated}
+button:hover:not(:disabled){border-image-source:url(../assets/ui/button_hover.png);background:#ffad55}
+button:active:not(:disabled){border-image-source:url(../assets/ui/button_pressed.png);background:#c4452b;transform:translateY(1px)}
+button:disabled{border-image-source:url(../assets/ui/button_disabled.png);background:#7a6248;color:#3a2e22;text-shadow:none;opacity:1}
+.ghost{color:var(--ink);background:#46402e;border-image:url(../assets/ui/nine_path_bg.png) 4 / 6px stretch;text-shadow:0 1px 0 #131b1b}
+.ghost:hover:not(:disabled){background:#5a5038;border-image-source:url(../assets/ui/nine_path_bg_2.png)}
+.ghost:active:not(:disabled){border-image-source:url(../assets/ui/nine_path_bg.png);background:#3a3326}
+.danger{color:#ff9a8a}
+.big{color:#2a1306;background:#ffad55;border:8px solid transparent;border-image:url(../assets/ui/tab_selected.png) 4 / 8px stretch;background-clip:padding-box;
+  box-shadow:none;text-shadow:0 1px 0 #fff3d8}
+.big:hover:not(:disabled){background:#ffd09e}
+.rg,.act,.slot,.nc{background:var(--wood2);border:3px solid var(--dark);border-left-width:6px;border-radius:4px;box-shadow:inset 0 0 0 1px #5a4a3c}
+.slot.cur{border-color:var(--gold);box-shadow:0 0 10px rgba(255,196,107,.45)}
+.qrow{background:var(--wood2);border:2px solid var(--dark);border-radius:4px}
+.tabs button{background:#a3754e;border-image:url(../assets/ui/tab_unselected.png) 4 / 6px stretch;color:#2a1306}
+.tabs button.on,.tabs button.active,.tabs button[aria-selected=true]{background:#fff3e0;border-image-source:url(../assets/ui/tab_selected.png)}
+#toast{background:var(--wood);border:8px solid transparent;border-image:url(../assets/ui/nine_path_panel.png) 6 / 8px stretch;background-clip:padding-box;color:var(--ink)}
+.logo{color:#ffd27a;text-shadow:0 3px 0 #9b513c,0 0 16px rgba(255,170,80,.35)}
+.wk i{background:#46402e}.wk i.used{background:#7a5a3a}.wk i.now{background:#ffad55;box-shadow:0 0 6px #ffad55}
+.bar2{background:#131b1b!important}
+/* 아이템 */
+.ico{display:inline-block;width:32px;height:32px;background:url(../assets/icons/items.png) no-repeat;image-rendering:pixelated;vertical-align:middle;flex:none}
+.ico.s2{width:64px;height:64px;background-size:1024px auto}
+.ico.s15{width:48px;height:48px;background-size:768px auto}
+.cell{position:relative;width:52px;height:52px;display:inline-flex;align-items:center;justify-content:center;background:#8d977f;
+  border:4px solid transparent;border-image:url(../assets/ui/inventory_cell.png) 4 / 4px stretch;background-clip:padding-box;cursor:pointer;vertical-align:top}
+.cell.sel{outline:3px solid var(--gold);outline-offset:-1px}
+.cell .r{position:absolute;left:0;right:0;bottom:0;height:4px}
+.cell .lv{position:absolute;right:1px;top:0;font-size:9px;color:#fff;text-shadow:0 1px 0 #000,0 0 2px #000;font-weight:900}
+.cell.empty{opacity:.65}
+.cell .ph{width:32px;height:32px;opacity:.55;image-rendering:pixelated}
+#equip{left:50%;top:50%;transform:translate(-50%,-50%);width:min(980px,96vw);height:min(640px,94vh);z-index:9;display:flex;flex-direction:column;gap:8px;padding:6px}
+#equip .eqbody{display:flex;gap:10px;flex:1;min-height:0}
+#equip .eqleft{width:300px;display:flex;flex-direction:column;gap:6px;overflow:auto}
+#equip .eqright{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+#equip .grid{display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start;overflow:auto;flex:1;padding:4px;background:#46402e;border:3px solid #131b1b}
+#equip .detail{min-height:118px;background:var(--wood2);border:3px solid #131b1b;padding:8px;font-size:12.5px;line-height:1.6}
+#equip .hsel{display:flex;gap:4px;flex-wrap:wrap}
+#equip .hsel button{padding:4px 8px;font-size:12px}
+#equip .slots5{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;justify-items:center}
+#equip .slots5 small{display:block;text-align:center;font-size:10px;color:var(--sub)}
+#equip .filt{display:flex;gap:4px;flex-wrap:wrap}
+#equip .filt button{padding:3px 8px;font-size:12px}
+.istat{color:#9fe08a}.ineg{color:#ff8a7a}
+.fit3{color:#7fd06a}.fit2{color:#d8d07a}.fit1{color:#ff9a6a}
+@media (max-width:700px),(max-height:440px){
+  #equip{width:98vw;height:96vh;padding:2px}
+  #equip .eqbody{flex-direction:row}
+  #equip .eqleft{width:46%}
+  .cell{width:44px;height:44px}
+}
+#thud{padding:4px 6px}
+#thud button{padding:2px 7px;font-size:11.5px;border-width:5px}
+#hubfoot button{padding:6px 10px}
+/* NPC 대화창 */
+#npcdlg{left:50%;bottom:10px;transform:translateX(-50%);width:min(760px,96vw);z-index:9;display:flex;gap:12px;padding:8px;align-items:flex-start}
+#npcdlg .nface{flex:none;width:96px;height:96px;background:#131b1b;border:6px solid transparent;border-image:url(../assets/ui/FacesetBox.png) 6 / 6px stretch;display:flex;align-items:center;justify-content:center}
+.face{width:76px;height:76px;image-rendering:pixelated}
+#event .face{width:64px;height:64px;float:left;margin:0 10px 6px 0;background:#131b1b;border:3px solid #131b1b}
+#npcdlg .ntext{flex:1;display:flex;flex-direction:column;gap:6px;font-size:13.5px;line-height:1.6;min-width:0}
+#npcdlg .nname{color:var(--gold);font-size:15px}#npcdlg .naff{float:right;font-size:12px}
+#npcdlg .nline{background:#f4ecdc;color:#2a1c10;padding:8px 10px;border:3px solid #131b1b;border-radius:3px;min-height:44px}
+#npcdlg .nopts{display:flex;flex-wrap:wrap;gap:5px}#npcdlg .nopts button{padding:5px 10px;font-size:12.5px}
+@media (max-height:440px){#npcdlg{bottom:4px;padding:4px}#npcdlg .nface{width:72px;height:72px}.face{width:56px;height:56px}#npcdlg .ntext{font-size:12px}}
+#event{z-index:10}
+
+#bpanel canvas.room{display:block;width:100%;max-width:320px;margin:6px auto;image-rendering:pixelated;border:3px solid #5a3a22;border-radius:6px;background:#1a1410}
+@media (max-height:500px){#bpanel canvas.room{max-width:200px}}
