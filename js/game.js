@@ -210,7 +210,7 @@ function genTerrain(){
   const road=(cy0)=>{let best=null,bs=1e9;for(let k=0;k<10;k++){const cy=cy0+(k?rr(-60,60):0),A=rr(15,45),f=rr(.003,.008),ph=rr(0,6);let hit=0;for(let x=0;x<GW;x+=2){const c=cy+A*Math.sin(x*C*f+ph),y=Math.floor(c/C);for(let dy=-3;dy<=3;dy++){const yy=y+dy;if(yy>=0&&yy<GH&&grid[yy*GW+x]===G_HILL)hit++;}}if(hit<bs){bs=hit;best={cy,A,f,ph};}if(!hit)break;}
     const {cy,A,f,ph}=best;RDS.push({cy,A,f,ph});
     for(let x=0;x<GW;x++){const c=cy+A*Math.sin(x*C*f+ph);
-      for(let y=y0;y<=y1;y++){const dd=Math.abs(y*C+C/2-c),i=y*GW+x;if(grid[i]===G_RIVER){if(dd<17)grid[i]=G_BRIDGE;}else if(dd<10)grid[i]=G_ROAD;}}};
+      for(let y=y0;y<=y1;y++){const dd=Math.abs(y*C+C/2-c),i=y*GW+x;if(grid[i]===G_RIVER){if(dd<18)grid[i]=G_BRIDGE;}else if(dd<15)grid[i]=G_ROAD;}}};
   if(river){road(rr(YMIN+80,H*.45));if(R()<.6)road(rr(H*.55,YMAX-80));
     // 다리 목록 (강은 다리로만 건넌다)
     const seen=new Uint8Array(GW*GH);for(let i=0;i<GW*GH;i++){if(grid[i]!==G_BRIDGE||seen[i])continue;const st=[i];seen[i]=1;let x0=1e9,x1=-1,y0=1e9,y1=-1,sy=0,n=0;
@@ -219,7 +219,7 @@ function genTerrain(){
   else{road(rr(H*.32,H*.68));if(R()<.35)road(R()<.5?rr(YMIN+70,H*.3):rr(H*.7,YMAX-70));}
   // 언덕은 32px 블록 단위 고지대로 정리 (그림과 실제 판정이 일치하도록)
   {const BW=Math.ceil(W/32),BH=Math.ceil(H/32),cnt=new Uint16Array(BW*BH),blk=new Uint16Array(BW*BH),tot=new Uint16Array(BW*BH);HB=new Uint8Array(BW*BH);
-    for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const b=Math.floor((y*C+C/2)/32)*BW+Math.floor((x*C+C/2)/32),t=grid[y*GW+x];tot[b]++;if(t===G_HILL)cnt[b]++;if(t===G_RIVER||t===G_BRIDGE)blk[b]++;}
+    for(let y=0;y<GH;y++)for(let x=0;x<GW;x++){const b=Math.floor((y*C+C/2)/32)*BW+Math.floor((x*C+C/2)/32),t=grid[y*GW+x];tot[b]++;if(t===G_HILL)cnt[b]++;if(t===G_RIVER||t===G_BRIDGE||t===G_ROAD){blk[b]++;if(t===G_ROAD&&b>=BW)blk[b-BW]++;}}
     for(let i=0;i<BW*BH;i++)HB[i]=cnt[i]>=tot[i]*.3&&!blk[i]&&tot[i]?1:0;
     for(let it=0;it<2;it++){const nH=i=>{const x=i%BW,y=(i/BW)|0;return(x>0&&HB[i-1])+(x<BW-1&&HB[i+1])+(y>0&&HB[i-BW])+(y<BH-1&&HB[i+BW]);};const nx=HB.slice();for(let i=0;i<BW*BH;i++){const n=nH(i);if(HB[i]&&n<=1)nx[i]=0;else if(!HB[i]&&n>=3&&!blk[i]&&tot[i])nx[i]=1;}HB.set(nx);}
     for(let i=0;i<BW*BH;i++){const bx=i%BW,by=(i/BW)|0;if(!HB[i])continue;const n=(bx>0&&HB[i-1])+(bx<BW-1&&HB[i+1])+(by>0&&HB[i-BW])+(by<BH-1&&HB[i+BW]);if(!n)HB[i]=0;}
@@ -321,20 +321,26 @@ function tsTerrainArt(){
     const pm=(x,y)=>T8(x,y)===G_SWAMP&&nz(x*.4,y*.4)>.3&&T8(x+1,y)===G_SWAMP&&T8(x-1,y)===G_SWAMP&&T8(x,y-1)===G_SWAMP&&T8(x,y+1)===G_SWAMP;
     fanTiles(pm,SW,SH,FW_WAT,true).forEach(q=>BOV.wat.push(q));}
   // 길 (Fan-tasy 흙길)
-  const onRoadA=(px,py)=>RDS.some(r=>Math.abs(py-(r.cy+r.A*Math.sin(px*r.f+r.ph)))<11),onRivA=(px,py)=>RVR&&Math.abs(px-(RVR.cx+RVR.A*Math.sin(py*RVR.f+RVR.ph)))<29;
-  fanTiles((x,y)=>onRoadA(x*8+4,y*8+4)&&!onRivA(x*8+4,y*8+4)&&T8(x,y)!==G_HILL,SW,SH,FW_ROAD).forEach(([id,x,y])=>g.drawImage(TS.FanRoad,(id%6)*16,((id/6)|0)*16,16,16,x*8,y*8,8,8));
+  const onRoadA=(px,py)=>RDS.some(r=>Math.abs(py-(r.cy+r.A*Math.sin(px*r.f+r.ph)))<16),onRivA=(px,py)=>RVR&&Math.abs(px-(RVR.cx+RVR.A*Math.sin(py*RVR.f+RVR.ph)))<29;
+  fanTiles((x,y)=>onRoadA(x*8+4,y*8+4)&&!onRivA(x*8+4,y*8+4)&&T8(x,y)!==G_HILL&&!faceB(blkOf(x*8+4,y*8+4)),SW,SH,FW_ROAD).forEach(([id,x,y])=>g.drawImage(TS.FanRoad,(id%6)*16,((id/6)|0)*16,16,16,x*8,y*8,8,8));
   // 강: 다수결로 매끈하게 → Fan-tasy 물(애니)은 매 프레임 그린다
   {const raw=new Uint8Array(SW*SH);for(let y=0;y<SH;y++)for(let x=0;x<SW;x++){const t=T8(x,y);raw[y*SW+x]=onRivA(x*8+4,y*8+4)?1:0;}
     const sm=(x,y)=>{if(y<0||y>=SH)return raw[Math.max(0,Math.min(SH-1,y))*SW+Math.max(0,Math.min(SW-1,x))]===1;if(x<0||x>=SW)return false;let n=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const xx=x+dx,yy=Math.max(0,Math.min(SH-1,y+dy));if(xx>=0&&xx<SW&&raw[yy*SW+xx])n++;}return n>=5;};
     fanTiles(sm,SW,SH,FW_WAT,true).forEach(q=>BOV.wat.push(q));}
   for(const b of BRG){const h=b.y1-b.y0+8,y=b.y0-4,x0=b.x0-h*.5,x1=b.x1+h*.5-h;BOV.brg.push([0,x0,y,h,h]);for(let x=x0+h;x<x1;x+=h)BOV.brg.push([1,x,y,Math.min(h,x1-x+1),h]);BOV.brg.push([2,x1,y,h,h]);}
+  const onFace=(x,y)=>{const b=blkOf(x,y);return faceB(b)||(b>=HBW&&STAIR&&STAIR[b-HBW]>0)||lvlB(b)===1;};
+  const spr=(k,x,y,gg)=>{if(!gg&&onFace(x,y))return;const S=SP[k],kk=(S[5]||2)/2;(gg||g).drawImage(TS[S[0]],S[1],S[2],S[3],S[4],Math.round(x-S[3]*kk/2),Math.round(y-S[4]*kk),S[3]*kk,S[4]*kk);};
+  // 길가 소품: 다리 양끝 이정표, 길 가장자리 이정표·돌·건초·나무통
+  {g.imageSmoothingEnabled=false;const free=(x,y)=>terrAt(x,y)===G_GRASS&&!near(x,y,8,[G_ROAD,G_RIVER,G_BRIDGE,G_HILL]);
+    for(const b of BRG){[[b.x0-34,b.y0-6],[b.x1+34,b.y1+22]].forEach(([x,y])=>{if(free(x,y))spr('fSignL',x,y);});}
+    RDS.forEach((r,ri)=>{for(let x=120+ri*90;x<W-80;x+=260+rnd()*120){const c=r.cy+r.A*Math.sin(x*r.f+r.ph),up=rnd()<.5,y=up?c-22:c+30;if(!free(x,y))continue;const k=rnd();
+      if(k<.35)spr('fSignL',x,y);else if(k<.6)spr(['fRock2','fRock3','fRock5'][Math.floor(rnd()*3)],x,y);else if(k<.8){spr('fBarrel',x,y);spr('fCrate',x+14,y+2);}else spr('fHay',x,y);}});}
   // 소품: 바위·덤불·꽃 (풀밭에만, 길·물 가까이 X)
-  const spr=(k,x,y,gg)=>{const S=SP[k],kk=(S[5]||2)/2;(gg||g).drawImage(TS[S[0]],S[1],S[2],S[3],S[4],Math.round(x-S[3]*kk/2),Math.round(y-S[4]*kk),S[3]*kk,S[4]*kk);};
   const DEC=biomeKey==='highland'?['fRock1','fRock2','fRock4','fRock5','fRock3','fBush']:biomeKey==='marsh'?['fBush','fRock2','fRock3','fBush']:['fRock2','fRock3','fBush','fRock5','fRock1'];
   for(let i=0,n=0;i<300&&n<26;i++){const x=20+rnd()*(W-40),y=YMIN+10+rnd()*(YMAX-YMIN-20);if(terrAt(x,y)!==G_GRASS||near(x,y,22,[G_ROAD,G_RIVER,G_BRIDGE,G_HILL]))continue;spr(DEC[Math.floor(rnd()*DEC.length)],x,y);n++;}
-  for(let i=0,n=0;i<200&&n<(biomeKey==='marsh'?4:14);i++){const x=20+rnd()*(W-40),y=YMIN+10+rnd()*(YMAX-YMIN-20);if(terrAt(x,y)!==G_GRASS||near(x,y,16,[G_ROAD,G_RIVER,G_BRIDGE]))continue;g.drawImage(rnd()<.5?TS.FanFlowR:TS.FanFlowW,0,0,32,32,x-8,y-12,16,16);n++;}
+  for(let i=0,n=0;i<200&&n<(biomeKey==='marsh'?4:14);i++){const x=20+rnd()*(W-40),y=YMIN+10+rnd()*(YMAX-YMIN-20);if(terrAt(x,y)!==G_GRASS||onFace(x,y)||near(x,y,16,[G_ROAD,G_RIVER,G_BRIDGE]))continue;g.drawImage(rnd()<.5?TS.FanFlowR:TS.FanFlowW,0,0,32,32,x-8,y-12,16,16);n++;}
   const D=k=>tsi(`Deco/${String(k).padStart(2,'0')}.png`);g.imageSmoothingEnabled=true;
-  for(let i=0,n=0;i<200&&n<10;i++){const x=rnd()*W|0,y=YMIN+rnd()*(YMAX-YMIN)|0;if(terrAt(x,y)!==G_GRASS||near(x,y,14,[G_ROAD,G_RIVER]))continue;g.drawImage(D([7,8,10,11,4,5][Math.floor(rnd()*6)]),x-16,y-24,32,32);n++;}
+  for(let i=0,n=0;i<200&&n<10;i++){const x=rnd()*W|0,y=YMIN+rnd()*(YMAX-YMIN)|0;if(terrAt(x,y)!==G_GRASS||onFace(x,y)||near(x,y,14,[G_ROAD,G_RIVER]))continue;g.drawImage(D([7,8,10,11,4,5][Math.floor(rnd()*6)]),x-16,y-24,32,32);n++;}
   // 숲: 빽빽한 나무 무리 + 가장자리 덤불
   const tr=tsi('Resources/Trees/Tree.png'),trees=[];
   for(let y=0;y<H;y+=20)for(let x=0;x<W;x+=22){const px=x+(rnd()-.5)*14,py=y+(rnd()-.5)*12;if(terrAt(px,py)===G_FOREST&&!near(px,py,10,[G_ROAD,G_RIVER,G_BRIDGE]))trees.push({x:px,y:py+8,k:.62+rnd()*.22});}
